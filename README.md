@@ -24,7 +24,7 @@
 * movierecommend recommend提供推荐算法
 * movierecommend job通过flink对数据进行操作
 
-[![架构]](architecture.png)
+[![架构]](http://ydschool-online.nos.netease.com/1582746970143Snipaste_2020-02-26_22-19-39.png)
 
 ### 技术栈
 * spring boot
