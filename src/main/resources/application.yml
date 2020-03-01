@@ -1,3 +1,30 @@
 server:
   port: 10015
   max-http-header-size: 8192
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: access_log
+      prefix: access_log
+      pattern: '%h %l %u %t "%r" %s %b "%{Referer}i" "%{User-Agent}i" "%{X-Forwarded-For}i" "%{X-Real-IP}i" %D %S "%U" %v'
+    basedir: ./
+spring:
+  application:
+    name: movie-recommend
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver # mysql驱动
+    username:  # 用户名
+    password:  # 密码
+    url: jdbc:mysql:///movie?useSSL=false&serverTimezone=Asia/Shanghai
+  jpa:
+    database : MYSQL
+    show-sql : true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        show_sql: true
+        globally_quoted_identifiers: true
