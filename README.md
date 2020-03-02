@@ -16,6 +16,10 @@
 * docker 18.09
 * nginx 部署测试
 
+### 本地开发
+gradle需要在编译阶段引入lombok包  
+idea中下载lombok插件  
+
 ### 架构
 基于SpringBoot，采用gradle进行包管理，采用docker-compose部署，实现简单的水平扩容和负载均衡。  
 整体分为以下几个部分：  

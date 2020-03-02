@@ -56,11 +56,15 @@ Person包括演员和导演，共72959个名人数据，包含10个字段，每�
 
 639125用户数据，包含4个字段，具体的字段如下：
 
-- USER_ID：豆瓣用户ID
+- USER_ID：用户ID
+- USER_MD: 用户md5，唯一标示
 - USER_NICKNAME: 评论用户昵称
 - USER_AVATAR: 评论用户头像
-- USER_URL: 评论用户url
+- USER_Tags: 用户标签
 
+### 标签表
+- TAG_ID: 标签id
+- TAG_NAME: 标签名称
 
 ### Rating数据
 

@@ -69,18 +69,20 @@ dependencies {
 
     // kafka
 //    implementation 'org.springframework.kafka:spring-kafka'
+    annotationProcessor 'org.projectlombok:lombok:1.18.2'
     compileOnly 'org.projectlombok:lombok:1.18.2'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
+    testCompileOnly 'org.projectlombok:lombok:1.18.2'
 //
 //    implementation 'com.github.ben-manes.caffeine:caffeine:2.6.2'
-//    implementation 'org.apache.commons:commons-pool2:2.6.1'
-//    implementation 'com.google.guava:guava:26.0-jre'
-//    implementation 'org.apache.commons:commons-lang3:3.8'
-//    implementation 'com.alibaba:fastjson:1.2.60'
+    implementation 'org.apache.commons:commons-pool2:2.6.1'
+    implementation 'com.google.guava:guava:26.0-jre'
+    implementation 'org.apache.commons:commons-lang3:3.8'
+    implementation 'com.alibaba:fastjson:1.2.60'
     implementation 'mysql:mysql-connector-java:5.1.46'
-//    implementation 'com.lmax:disruptor:3.3.6'
-//    implementation 'com.google.code.gson:gson:2.8.5'
-
-
+    implementation 'com.lmax:disruptor:3.3.6'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

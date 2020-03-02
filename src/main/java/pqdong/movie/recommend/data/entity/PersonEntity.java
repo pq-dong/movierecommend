@@ -14,7 +14,8 @@ import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
-@Entity(name = "person")
+@Entity
+@Table(name = "person")
 public class PersonEntity {
 
 

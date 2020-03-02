@@ -13,8 +13,8 @@ spring:
     name: movie-recommend
   datasource:
     driver-class-name: com.mysql.jdbc.Driver # mysql驱动
-    username:  # 用户名
-    password:  # 密码
+    username:   # 用户名
+    password:   # 密码
     url: jdbc:mysql:///movie?useSSL=false&serverTimezone=Asia/Shanghai
   jpa:
     database : MYSQL
