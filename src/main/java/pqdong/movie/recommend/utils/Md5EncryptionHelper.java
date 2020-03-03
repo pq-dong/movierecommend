@@ -1,11 +1,17 @@
 package pqdong.movie.recommend.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
  * MD5加密工具类
  */
+@Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Md5EncryptionHelper {
 
     /**

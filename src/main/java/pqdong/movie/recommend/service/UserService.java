@@ -2,14 +2,17 @@ package pqdong.movie.recommend.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import pqdong.movie.recommend.data.constant.UserConstant;
 import pqdong.movie.recommend.data.entity.UserEntity;
 import pqdong.movie.recommend.data.repository.UserRepository;
-import pqdong.movie.recommend.domain.user.UserInfo;
+import pqdong.movie.recommend.redis.RedisApi;
+import pqdong.movie.recommend.redis.RedisKeys;
 import pqdong.movie.recommend.utils.Md5EncryptionHelper;
+import pqdong.movie.recommend.utils.RecommendUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * userService
@@ -24,19 +27,41 @@ public class UserService {
     @Resource
     private UserRepository userRepository;
 
-    public UserInfo getUserInfo(String userMd) {
-        UserEntity userEntity = userRepository.findByUserMd(userMd);
-        UserInfo userInfo = new UserInfo();
-        userInfo.setId(userEntity.getId());
-        userInfo.setUserAvatar(userEntity.getUserAvatar());
-        userInfo.setUserMd(userEntity.getUserMd());
-        userInfo.setUserNickName(userEntity.getUserNickName());
-        userInfo.setUserTags(userEntity.getUserTags());
-        return userInfo;
+    @Resource
+    private QiNiuService qiNiuService;
+
+    @Resource
+    private RedisApi redisApi;
+
+    public UserEntity getUserInfo(String userMd) {
+        return userRepository.findByUserMd(userMd);
     }
 
-    public boolean login(String userName, String password) {
+    // 登录后需要前端设置header
+    public String login(String userName, String password) {
         UserEntity user = userRepository.findByUserNickName(userName);
-        return user.getPassword().equals(Md5EncryptionHelper.getMD5WithSalt(password));
+        if (user == null){
+            return "";
+        }
+        if (user.getPassword().equals(Md5EncryptionHelper.getMD5WithSalt(password))){
+            String token = RecommendUtils.genToken();
+            redisApi.setValue(RecommendUtils.getKey(RedisKeys.USER_TOKEN, token) , user.getUserMd(), 7, TimeUnit.DAYS);
+            return token;
+        } else {
+            return "";
+        }
+    }
+
+    // 上传并设置用户头像
+    public boolean uploadAvatar(String userMd, MultipartFile avatar) {
+        String name = RecommendUtils.getKey(UserConstant.USER_AVATAR, userMd);
+        String url = qiNiuService.uploadPicture(avatar, name);
+        UserEntity entity = userRepository.findByUserMd(userMd);
+        if (entity == null) {
+            return false;
+        }
+        entity.setUserAvatar(url);
+        userRepository.save(entity);
+        return true;
     }
 }

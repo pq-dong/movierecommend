@@ -1,7 +1,5 @@
 package pqdong.movie.recommend.domain.util;
 
-import java.nio.charset.StandardCharsets;
-import java.util.function.Supplier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

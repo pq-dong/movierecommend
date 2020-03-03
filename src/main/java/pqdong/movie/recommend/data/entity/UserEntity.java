@@ -5,6 +5,7 @@ package pqdong.movie.recommend.data.entity;
 * @author pqdong
  */
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -34,6 +35,7 @@ public class UserEntity {
     private String userAvatar;
 
     // 用户密码
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
