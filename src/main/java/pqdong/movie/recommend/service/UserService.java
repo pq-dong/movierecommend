@@ -64,4 +64,10 @@ public class UserService {
         userRepository.save(entity);
         return true;
     }
+
+    // 退出
+    public boolean logout(){
+
+        return true;
+    }
 }

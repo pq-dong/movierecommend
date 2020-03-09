@@ -2,7 +2,6 @@ package pqdong.movie.recommend.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -15,12 +14,12 @@ import pqdong.movie.recommend.exception.ResultEnum;
 import pqdong.movie.recommend.redis.RedisApi;
 import pqdong.movie.recommend.redis.RedisKeys;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-
 
 /**
  * LoginInterceptor
@@ -32,11 +31,18 @@ import java.lang.reflect.Method;
 @Component
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
+    private static LoginInterceptor loginInterceptor;
+
     @Resource
     private RedisApi redis;
 
     @Resource
     private UserRepository userRepository;
+
+    @PostConstruct
+    public void init() {
+        loginInterceptor = this;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -52,19 +58,19 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             if (StringUtils.isEmpty(token)){
                 throw new MyException(ResultEnum.NEED_LOGIN);
             }
-            String userMd = redis.getString(RecommendUtils.getKey(RedisKeys.USER_TOKEN, token));
+            String userMd = loginInterceptor.redis.getString(RecommendUtils.getKey(RedisKeys.USER_TOKEN, token));
             if (StringUtils.isEmpty(userMd)){
                 // 没有获取到redis中的信息
                 throw new MyException(ResultEnum.NEED_LOGIN);
             }
-            UserEntity user = userRepository.findByUserMd(userMd);
+            UserEntity user = loginInterceptor.userRepository.findByUserMd(userMd);
             if (user == null) {
                 // token无法获取到用户信息代表未登陆
                 throw new MyException(ResultEnum.NEED_LOGIN);
             }
             // 退出时删除缓存
             if (uri.contains(UserConstant.LOGOUT)) {
-                redis.delKey(RecommendUtils.getKey(RedisKeys.USER_TOKEN, token));
+                loginInterceptor.redis.delKey(RecommendUtils.getKey(RedisKeys.USER_TOKEN, token));
             }
         }
         return true;

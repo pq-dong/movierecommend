@@ -10,5 +10,4 @@ import pqdong.movie.recommend.data.entity.PersonEntity;
  */
 
 public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
-
 }

@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pqdong.movie.recommend.data.entity.UserEntity;
 
-import java.util.List;
-
 /**
  * @author pqdong
  * @description

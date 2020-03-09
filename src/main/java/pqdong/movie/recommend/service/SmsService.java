@@ -8,15 +8,21 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import com.google.gson.internal.$Gson$Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.checkerframework.checker.units.qual.A;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pqdong.movie.recommend.data.constant.UserConstant;
+import pqdong.movie.recommend.data.entity.ConfigEntity;
+import pqdong.movie.recommend.data.repository.ConfigRepository;
 import pqdong.movie.recommend.exception.MyException;
 import pqdong.movie.recommend.exception.ResultEnum;
 import pqdong.movie.recommend.redis.RedisApi;
 import pqdong.movie.recommend.utils.RecommendUtils;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
@@ -33,17 +39,16 @@ public class SmsService {
     @Resource
     private RedisApi redis;
 
+    @Resource
+    private ConfigService configService;
+
     /**
      * 阿里短信
      **/
-    private static final String PRODUCT = "Dysmsapi";
-    private static final String DOMAIN = "dysmsapi.aliyuncs.com";
-    private static final String ACCESS_KEY_ID = "LTAI7Si7prUFjTnd";
-    private static final String ACCESS_KEY_SECRET = "HpNn37b9MRj02dyDIJMnSikmomOGAx";
 
     private IAcsClient getAcsClient() throws ClientException {
-        IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", ACCESS_KEY_ID, ACCESS_KEY_SECRET);
-        DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", PRODUCT, DOMAIN);
+        IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", configService.getConfigValue("ACCESS_KEY_ID"), configService.getConfigValue("ACCESS_KEY_SECRET"));
+        DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", configService.getConfigValue("PRODUCT"), configService.getConfigValue("DOMAIN"));
         return new DefaultAcsClient(profile);
     }
 
@@ -62,7 +67,7 @@ public class SmsService {
         request.setMethod(MethodType.POST);
         request.setPhoneNumbers(phoneNumber);
         request.setSignName("花瓣电影");
-        request.setTemplateCode("SMS_130924380");
+        request.setTemplateCode("SMS_185231476");
         request.setTemplateParam("{\"code\":\"" + randomCode + "\"}");
         try {
             SendSmsResponse sendSmsResponse = getAcsClient().getAcsResponse(request);
