@@ -27,4 +27,8 @@ public class UserInfo {
 
     // 用户标签
     private String userTags;
+
+    private String username;
+
+    private String password;
 }

@@ -68,7 +68,7 @@ public class ResponseMessage<T> {
     }
 
     public static ResponseMessage needLoginMessage() {
-        return new ResponseMessage(NEED_LOGIN_CODE, "need login");
+        return new ResponseMessage<>(NEED_LOGIN_CODE, "need login");
     }
 
     public static ResponseMessage errorMessage(int code, String msg) {

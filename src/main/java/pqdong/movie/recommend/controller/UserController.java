@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pqdong.movie.recommend.annotation.LoginRequired;
 import pqdong.movie.recommend.data.entity.UserEntity;
+import pqdong.movie.recommend.domain.user.UserInfo;
 import pqdong.movie.recommend.domain.util.ResponseMessage;
 import pqdong.movie.recommend.service.SmsService;
 import pqdong.movie.recommend.service.UserService;
@@ -40,12 +41,12 @@ public class UserController {
      * @method login 登录接口
      */
     @PostMapping("/login")
-    public ResponseMessage userLogin(@RequestBody UserEntity user) {
-        String token = userService.login(user.getUserNickName(), user.getPassword());
+    public ResponseMessage userLogin(@RequestBody UserInfo user) {
+        String token = userService.login(user.getUsername(), user.getPassword());
         if (StringUtils.isNotBlank(token)){
             return ResponseMessage.successMessage(token);
         } else {
-            return ResponseMessage.successMessage("登录失败，请检查用户名或密码！");
+            return ResponseMessage.failedMessage("登录失败，请检查用户名或密码！");
         }
 
     }

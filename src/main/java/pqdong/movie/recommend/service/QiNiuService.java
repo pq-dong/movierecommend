@@ -30,7 +30,7 @@ public class QiNiuService {
     /**
      * 七牛云
      **/
-    private Auth auth = Auth.create("", "");
+    private Auth auth = Auth.create("zfg7aGCs98DbKp_zKHzOAwzd6BoPhLjPkO5ohzEG", "l-fs00VcPP2nZRBKZmJj7LeSShi2wKxSMN5RL10w");
     Configuration cfg = new Configuration(Zone.huadong());
     private UploadManager uploadManager = new UploadManager(cfg);
 
