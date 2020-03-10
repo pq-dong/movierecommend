@@ -1,0 +1,16 @@
+version: "3"
+services:
+
+  backend:
+    image: backend:1.0
+    container_name: movierecommend
+    volumes:
+      - /home/movie/log:/access_log
+
+  front:
+    image: moviefront:1.0
+    container_name: moviefront
+    depends_on:
+      - backdend
+    ports:
+      - "22201:3000"

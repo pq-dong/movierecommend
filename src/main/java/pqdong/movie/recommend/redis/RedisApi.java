@@ -71,6 +71,69 @@ public class RedisApi {
         }
     }
 
+    public void delHashKey(String key, String name) {
+        try {
+            HashOperations<String, String, String> opt = redis.opsForHash();
+            opt.delete(key, name);
+        } catch (Exception e) {
+            log.warn("redis delHashKey error key={}, name={}", key, name, e);
+        }
+    }
+
+    public String hget(String key, String name) {
+        try {
+            HashOperations<String, String, String> opt = redis.opsForHash();
+            return opt.get(key, name);
+        } catch (Exception e) {
+            log.warn("redis hget error key={}, name={}", key, name, e);
+            return null;
+        }
+    }
+
+    public Map<String, String> hgetAll(String key) {
+        try {
+            HashOperations<String, String, String> opt = redis.opsForHash();
+            return opt.entries(key);
+        } catch (Exception e) {
+            log.warn("redis hgetAll error key={}", key, e);
+            return new HashMap<>();
+        }
+    }
+
+    public void hdel(String key, String field) {
+        try {
+            HashOperations<String, String, String> opt = redis.opsForHash();
+            opt.delete(key, field);
+        } catch (Exception e) {
+            log.warn("redis hdel error key={}, field={}", key, field, e);
+        }
+    }
+
+    public List<String> hmget(String key, List<String> hashKeys) {
+        try {
+            HashOperations<String, String, String> opt = redis.opsForHash();
+            return opt.multiGet(key, hashKeys);
+        } catch (Exception e) {
+            log.warn("redis hmget error key={}, hashKeys={}", key, hashKeys, e);
+        }
+        return Collections.emptyList();
+    }
+
+    public void hset(String key, String name, String value, long time, TimeUnit unit) {
+        try {
+            redis.executePipelined((RedisCallback) connection -> {
+                HashOperations<String, String, String> opt = redis.opsForHash();
+                connection.openPipeline();
+                opt.put(key, name, value);
+                redis.expire(key, time, unit);
+                connection.closePipeline();
+                return null;
+            });
+        } catch (Exception e) {
+            log.warn("redis hset error key={}, name={}, value={}", key, name, value, e);
+        }
+    }
+
     public void publish(String key, String message) {
         try {
             redis.convertAndSend(key, message);

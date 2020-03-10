@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pqdong.movie.recommend.annotation.LoginRequired;
-import pqdong.movie.recommend.data.entity.UserEntity;
 import pqdong.movie.recommend.domain.user.UserInfo;
 import pqdong.movie.recommend.domain.util.ResponseMessage;
 import pqdong.movie.recommend.service.SmsService;
@@ -32,9 +31,21 @@ public class UserController {
      * @method getUserInfo 获取用户信息
      */
     @GetMapping("/userInfo")
-    @LoginRequired
-    public ResponseMessage getCourseInfo(@RequestParam(required = true) String nameMd) {
-        return ResponseMessage.successMessage(userService.getUserInfo(nameMd));
+    public ResponseMessage getCourseInfo(@RequestParam(required = true) String token) {
+        return ResponseMessage.successMessage(userService.getUserInfo(token));
+    }
+
+    /**
+     * @method register 注册用户
+     */
+    @PostMapping("/register")
+    public ResponseMessage register(@RequestBody UserInfo user){
+        String result = userService.register(user);
+        if (result.equals("success")){
+            return ResponseMessage.successMessage("success");
+        } else{
+            return ResponseMessage.failedMessage(result);
+        }
     }
 
     /**

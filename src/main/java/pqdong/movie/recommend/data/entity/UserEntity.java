@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -28,7 +29,7 @@ public class UserEntity {
 
     // 用户昵称
     @Column(name = "user_nickname")
-    private String userNickName;
+    private String username;
 
     // 用户头像
     @Column(name = "user_avatar")
@@ -42,5 +43,9 @@ public class UserEntity {
     // 用户标签
     @Column(name = "user_tags")
     private String userTags;
+
+    // 用户手机号
+    @Column(name = "phone")
+    private String phone;
 
 }

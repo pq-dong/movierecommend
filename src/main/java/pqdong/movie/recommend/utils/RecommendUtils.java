@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import pqdong.movie.recommend.domain.user.UserInfo;
 
 /**
@@ -134,6 +135,12 @@ public class RecommendUtils {
         int h = userId.hashCode();
         h = h < 0 ? -h : h;
         return AVATARURLARRAY[h % AVATARURLARRAY.length];
+    }
+
+    public static Pair<Integer, Integer> getStartAndEnd(int page, int size) {
+        int start = (page - 1) * size;
+        int end = start + size;
+        return Pair.of(start, end);
     }
 
 }

@@ -59,4 +59,8 @@ public class PersonEntity {
     // 简介
     @Column(name = "biography")
     private String biography;
+
+    // 头像
+    @Column(name = "avatar")
+    private String avatar;
 }

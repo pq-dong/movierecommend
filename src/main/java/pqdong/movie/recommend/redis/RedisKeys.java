@@ -16,4 +16,7 @@ public class RedisKeys {
 
     /** 手机验证码缓存 **/
     public static final String PHONE_CODE = "phone_code";
+
+    /** 招聘信息缓存前缀 **/
+    public static final String PERSON_PREFIX = "person";
 }
