@@ -1,16 +1,27 @@
 version: "3"
 services:
 
+  redis:
+    image: redis
+    container_name: redis:4.0-alpine
+    restart: always
+      volumes:
+        - /home/movie/redis:/data
+
   backend:
     image: backend:1.0
     container_name: movierecommend
+    depends_on:
+      - redis
     volumes:
       - /home/movie/log:/access_log
+    network_mode: host
 
   front:
     image: moviefront:1.0
     container_name: moviefront
     depends_on:
-      - backdend
+      - backend
     ports:
-      - "22201:3000"
+      - "10016:10016"
+    network_mode: host

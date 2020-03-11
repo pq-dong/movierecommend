@@ -1,17 +1,19 @@
 # movierecommend
-基于Spring Boot的大数据电影推荐系统，采用协同过滤算法实现个性化推荐
+基于Spring Boot的大数据电影推荐系统，采用协同过滤算法实现个性化推荐  
+demo地址：[http://movie.pqdong.com/#/](http://movie.pqdong.com/#/)
 
 ### 任务点
 - [x] 开发环境搭建测试
 - [x] 初步架构方案
 - [x] 数据整理
 - [x] 数据导入mysql
+- [x] 部署测试
 - [ ] 后端代码开发
 - [ ] 前端代码开发
 
 ### 开发环境
 * 腾讯云服务器 1核2G 1M带宽
-* 域名申请及备案
+* 域名申请及备案，挂了个二级域名
 * mysql部署
 * docker 18.09
 * nginx 部署测试

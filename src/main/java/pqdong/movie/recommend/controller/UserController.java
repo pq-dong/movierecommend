@@ -94,7 +94,7 @@ public class UserController {
     /**
      * @method logout 退出接口
      **/
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     @LoginRequired
     public ResponseMessage logout() {
         return ResponseMessage.successMessage(userService.logout());
