@@ -1,6 +1,10 @@
 # movierecommend
 基于Spring Boot的大数据电影推荐系统，采用协同过滤算法实现个性化推荐  
-demo地址：[http://movie.pqdong.com/#/](http://movie.pqdong.com/#/)
+
+### demo地址：[http://movie.pqdong.com/#/](http://movie.pqdong.com/#/)
+由于首页资源比较多，且服务器带宽太小，所以首次访问时加载速度会很慢（大约在30s左右，可怕！），请多等一下；  
+待功能开发完毕后会优化此页面加载速度  
+
 
 ### 任务点
 - [x] 开发环境搭建测试
