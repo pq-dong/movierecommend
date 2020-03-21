@@ -13,9 +13,8 @@
 
 电影数据共140502部，2019年之前的电影有139129，当前未上映的有1373部，包含21个字段，部分字段数据为空，字段说明如下: 
 
-- MOVIE_ID: 电影ID，对应豆瓣的DOUBAN_ID
+- MOVIE_ID: 电影ID
 - NAME: 电影名称
-- ALIAS: 别名
 - ACTORS: 主演
 - COVER: 封面图片地址
 - DIRECTORS: 导演
@@ -30,7 +29,7 @@
 - DOUBAN_VOTES: 豆瓣投票数
 - TAGS: 标签
 - STORYLINE: 电影描述
-- SLUG: 加密的url，可忽略
+- SLUG: 加密的url
 - YEAR: 年份
 - ACTOR_IDS: 演员与PERSON_ID的对应关系,多个演员采用“\|”符号分割，格式“演员A:ID\|演员B:ID”；
 - DIRECTOR_IDS: 导演与PERSON_ID的对应关系,多个导演采用“\|”符号分割，格式“导演A:ID\|导演B:ID”；

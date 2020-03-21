@@ -6,6 +6,9 @@ package pqdong.movie.recommend.data.entity;
  */
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -47,5 +50,9 @@ public class UserEntity {
     // 用户手机号
     @Column(name = "phone")
     private String phone;
+
+    // 个人宣言
+    @Column(name = "motto")
+    private String motto;
 
 }

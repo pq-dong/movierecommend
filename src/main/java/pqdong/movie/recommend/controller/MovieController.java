@@ -24,4 +24,18 @@ public class MovieController {
         return ResponseMessage.successMessage(movieService.getMovieTags());
     }
 
+    /**
+     * @method allPerson 查看所有演员
+     * @param key 关键字
+     * @param page 当前页数
+     * @param size 每页数据量
+     **/
+    @GetMapping("/list")
+    public ResponseMessage allPerson(
+            @RequestParam(required = false, defaultValue = "") String key,
+            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false, defaultValue = "12") int size) {
+        return ResponseMessage.successMessage(movieService.getAllMovie(key, page, size));
+    }
+
 }

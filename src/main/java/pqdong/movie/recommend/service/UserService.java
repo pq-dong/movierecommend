@@ -39,6 +39,10 @@ public class UserService {
     @Resource
     private RedisApi redisApi;
 
+    public UserEntity updateUser(UserEntity user){
+        return userRepository.save(user);
+    }
+
     public String register(UserInfo user){
         String code = redisApi.getString(RecommendUtils.getKey(UserConstant.PHONE_CODE, user.getPhone()));
         if (StringUtils.isEmpty(code)){
@@ -95,16 +99,16 @@ public class UserService {
     }
 
     // 上传并设置用户头像
-    public boolean uploadAvatar(String userMd, MultipartFile avatar) {
+    public String uploadAvatar(String userMd, MultipartFile avatar) {
         String name = RecommendUtils.getKey(UserConstant.USER_AVATAR, userMd);
         String url = qiNiuService.uploadPicture(avatar, name);
         UserEntity entity = userRepository.findByUserMd(userMd);
         if (entity == null) {
-            return false;
+            return "用户不存在";
         }
         entity.setUserAvatar(url);
         userRepository.save(entity);
-        return true;
+        return url;
     }
 
     // 退出

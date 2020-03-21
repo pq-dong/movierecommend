@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pqdong.movie.recommend.annotation.LoginRequired;
+import pqdong.movie.recommend.data.entity.UserEntity;
 import pqdong.movie.recommend.domain.user.UserInfo;
 import pqdong.movie.recommend.domain.util.ResponseMessage;
 import pqdong.movie.recommend.service.SmsService;
@@ -33,6 +34,14 @@ public class UserController {
     @GetMapping("/userInfo")
     public ResponseMessage getCourseInfo(@RequestParam(required = true) String token) {
         return ResponseMessage.successMessage(userService.getUserInfo(token));
+    }
+
+    /**
+     * @method updateUserInfo 修改用户信息
+     */
+    @PostMapping("/userInfo")
+    public ResponseMessage updateCourseInfo(@RequestBody(required = true) UserEntity user) {
+        return ResponseMessage.successMessage(userService.updateUser(user));
     }
 
     /**
@@ -83,11 +92,11 @@ public class UserController {
     @PostMapping("/avatar")
     @LoginRequired
     public ResponseMessage upload(@RequestParam("userMd") String userMd, @RequestParam("avatar") MultipartFile avatar) {
-        boolean flag = userService.uploadAvatar(userMd, avatar);
-        if (flag) {
-            return ResponseMessage.successMessage("头像上传成功");
+        String url = userService.uploadAvatar(userMd, avatar);
+        if (StringUtils.contains(url,"http")) {
+            return ResponseMessage.successMessage(url);
         } else {
-            return ResponseMessage.failedMessage("上传头像失败");
+            return ResponseMessage.failedMessage(url);
         }
     }
 
