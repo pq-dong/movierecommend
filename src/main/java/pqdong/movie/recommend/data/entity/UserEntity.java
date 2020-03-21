@@ -55,4 +55,7 @@ public class UserEntity {
     @Column(name = "motto")
     private String motto;
 
+    @Column(name = "sex")
+    private String sex;
+
 }

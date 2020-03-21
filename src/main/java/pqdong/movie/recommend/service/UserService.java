@@ -4,6 +4,7 @@ import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.springframework.beans.BeanUtils;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pqdong.movie.recommend.data.constant.UserConstant;
@@ -40,6 +41,14 @@ public class UserService {
     private RedisApi redisApi;
 
     public UserEntity updateUser(UserEntity user){
+        // 如果用户名已经存在，不进行更新
+        UserEntity userSearch = userRepository.findByUserNickName(user.getUsername());
+        // 不允许nickname相同
+        if (null != userSearch && !userSearch.getUserMd().equals(user.getUserMd())){
+            return null;
+        }
+        UserEntity userInfo = userRepository.findByUserMd(user.getUserMd());
+        user.setPassword(userInfo.getPassword());
         return userRepository.save(user);
     }
 

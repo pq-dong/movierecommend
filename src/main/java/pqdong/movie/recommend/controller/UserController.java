@@ -41,6 +41,10 @@ public class UserController {
      */
     @PostMapping("/userInfo")
     public ResponseMessage updateCourseInfo(@RequestBody(required = true) UserEntity user) {
+        UserEntity userInfo = userService.updateUser(user);
+        if (null == userInfo){
+            return ResponseMessage.failedMessage("昵称已经存在，请跟换昵称！");
+        }
         return ResponseMessage.successMessage(userService.updateUser(user));
     }
 
