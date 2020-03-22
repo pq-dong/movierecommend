@@ -6,6 +6,7 @@ package pqdong.movie.recommend.data.entity;
  */
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "movie")
 @Entity
 public class MovieEntity {

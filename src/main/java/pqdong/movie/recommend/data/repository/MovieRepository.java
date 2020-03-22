@@ -20,4 +20,7 @@ public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
 
     @Query("SELECT e FROM MovieEntity e WHERE e.name like :keys")
     List<MovieEntity> findAllByName(@Param("keys") String keys);
+
+    @Query("SELECT e FROM MovieEntity e WHERE e.movieId = :movieId")
+    MovieEntity findOneByMovieID(@Param("movieId") Long movieId);
 }

@@ -13,9 +13,9 @@ spring:
     name: movie-recommend
   datasource:
     driver-class-name: com.mysql.jdbc.Driver # mysql驱动
-    username:  # 用户名
-    password:  # 密码
-    url: jdbc:mysql://s/movie?useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true&failOverReadOnly=false
+    username: your username # 用户名
+    password: your password # 密码
+    url: jdbc:mysql://ip:port/movie?useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true&failOverReadOnly=false
   redis:
     timeout: 300s # 超时时间
     host: 127.0.0.1

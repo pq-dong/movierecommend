@@ -5,6 +5,15 @@
 由于首页资源比较多，且服务器带宽太小，所以首次访问时加载速度会很慢（大约在30s左右，可怕！），请多等一下；  
 待功能开发完毕后会优化此页面加载速度  
 
+### 如何在本地开发
+```
+# 环境依赖
+1. java环境
+2. gradle项目，建议通过Intellij IDEA打开，运行build.gradle下载依赖，具体参考gradle教程
+3. 下载IDEA lombok插件
+4. 如果需要正常运行，需要使用mysql数据库和redis，具体配置可根据自己的项目配置在application.yml中
+5. 发送短信和照片上传需要一些token和access_key，可以参考代码`configService.getConfigValue`获取配置和阿里云短信
+```
 
 ### 任务点
 - [x] 开发环境搭建测试
@@ -21,10 +30,6 @@
 * mysql部署
 * docker 18.09
 * nginx 部署测试
-
-### 本地开发
-gradle需要在编译阶段引入lombok包  
-idea中下载lombok插件  
 
 ### 架构
 基于SpringBoot，采用gradle进行包管理，采用docker-compose部署，实现简单的水平扩容和负载均衡。  
@@ -46,4 +51,7 @@ idea中下载lombok插件
 * gradle
 * kafka
 
+### 数据库中数据来源声明 
+来源：[斗码小院公众号](http://www.csuldw.com/assets/articleImg/2019/code-main-fun.png)。  
+具体可见/doc/databaseSchema.md
 

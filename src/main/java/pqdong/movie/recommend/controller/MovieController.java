@@ -25,17 +25,26 @@ public class MovieController {
     }
 
     /**
-     * @method allPerson 查看所有演员
+     * @method allMovie 获取电影列表
      * @param key 关键字
      * @param page 当前页数
      * @param size 每页数据量
      **/
     @GetMapping("/list")
-    public ResponseMessage allPerson(
+    public ResponseMessage allMovie(
             @RequestParam(required = false, defaultValue = "") String key,
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "12") int size) {
         return ResponseMessage.successMessage(movieService.getAllMovie(key, page, size));
     }
 
+    /**
+     * @method getMovie 获取电影详情
+     * @param movieId 电影id
+     **/
+    @GetMapping("/info")
+    public ResponseMessage getMovie(
+            @RequestParam(required = true, defaultValue = "0") Long movieId) {
+        return ResponseMessage.successMessage(movieService.getMovie(movieId));
+    }
 }
