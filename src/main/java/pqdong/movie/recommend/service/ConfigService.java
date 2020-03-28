@@ -11,6 +11,7 @@ public class ConfigService {
     @Resource
     private ConfigRepository configRepository;
 
+    // 获取七牛云，阿里云短信 access_token等配置信息
     public String getConfigValue(String key){
         return configRepository.findConfigByKey(key).getValue();
     }

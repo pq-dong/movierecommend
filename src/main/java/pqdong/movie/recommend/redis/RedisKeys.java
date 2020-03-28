@@ -8,15 +8,10 @@ package pqdong.movie.recommend.redis;
  */
 public class RedisKeys {
 
-    /** token:user缓存 **/
+    // user_token缓存
     public static final String USER_TOKEN = "user_token";
 
-    /** userId:user缓存 **/
-    public static final String USER_ID = "user_id";
+    // 高分电影缓存
+    public static final String HIGH_MOVIE = "high_movie";
 
-    /** 手机验证码缓存 **/
-    public static final String PHONE_CODE = "phone_code";
-
-    /** 招聘信息缓存前缀 **/
-    public static final String PERSON_PREFIX = "person";
 }

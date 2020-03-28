@@ -16,8 +16,11 @@ import java.util.List;
 
 public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
     @Query(nativeQuery = true, value = "select * from person where 1=1 limit ?1")
-    List<PersonEntity> findAllByCountLimit(@Param("id") int num);
+    List<PersonEntity> findAllByCountLimit(@Param("num") int num);
 
     @Query("SELECT e FROM PersonEntity e WHERE e.name like :keys")
     List<PersonEntity> findAllByName(@Param("keys") String keys);
+
+    @Query("SELECT e FROM PersonEntity e WHERE e.id = :personId")
+    PersonEntity findOneByPersonID(@Param("personId") long personId);
 }

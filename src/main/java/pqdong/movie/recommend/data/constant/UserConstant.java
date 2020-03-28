@@ -6,8 +6,6 @@ public class UserConstant {
 
     public static final String OK = "OK";
 
-    public static final String TOKEN = "token";
-
     public static final String LOGOUT = "logout";
 
     public static final String USER_AVATAR = "avatar";

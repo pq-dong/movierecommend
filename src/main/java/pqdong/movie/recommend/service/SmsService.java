@@ -8,21 +8,15 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import com.google.gson.internal.$Gson$Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.checkerframework.checker.units.qual.A;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pqdong.movie.recommend.data.constant.UserConstant;
-import pqdong.movie.recommend.data.entity.ConfigEntity;
-import pqdong.movie.recommend.data.repository.ConfigRepository;
 import pqdong.movie.recommend.exception.MyException;
 import pqdong.movie.recommend.exception.ResultEnum;
 import pqdong.movie.recommend.redis.RedisApi;
 import pqdong.movie.recommend.utils.RecommendUtils;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 

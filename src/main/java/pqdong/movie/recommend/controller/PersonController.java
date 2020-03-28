@@ -17,11 +17,12 @@ public class PersonController {
 
     @Resource
     private PersonService personService;
+
     /**
-     * @method allPerson 查看所有演员
-     * @param key 关键字
+     * @param key  关键字
      * @param page 当前页数
      * @param size 每页数据量
+     * @method allPerson 查看所有演员
      **/
     @GetMapping("/list")
     public ResponseMessage allPerson(
@@ -29,5 +30,15 @@ public class PersonController {
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "4") int size) {
         return ResponseMessage.successMessage(personService.getAllPerson(key, page, size));
+    }
+
+    /**
+     * @param personId 演员id
+     * @method getPerson 获取导演演员详情
+     **/
+    @GetMapping("/info")
+    public ResponseMessage getPerson(
+            @RequestParam(required = true, defaultValue = "0") Long personId) {
+        return ResponseMessage.successMessage(personService.getPerson(personId));
     }
 }

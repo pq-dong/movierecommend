@@ -10,7 +10,7 @@
 # 环境依赖
 1. java环境
 2. gradle项目，建议通过Intellij IDEA打开，运行build.gradle下载依赖，具体参考gradle教程
-3. 下载IDEA lombok插件
+3. IDEA下载开启 lombok插件
 4. 如果需要正常运行，需要使用mysql数据库和redis，具体配置可根据自己的项目配置在application.yml中
 5. 发送短信和照片上传需要一些token和access_key，可以参考代码`configService.getConfigValue`获取配置和阿里云短信
 ```

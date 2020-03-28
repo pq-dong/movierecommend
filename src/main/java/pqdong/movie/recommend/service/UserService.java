@@ -2,17 +2,13 @@ package pqdong.movie.recommend.service;
 
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pqdong.movie.recommend.data.constant.UserConstant;
 import pqdong.movie.recommend.data.entity.UserEntity;
 import pqdong.movie.recommend.data.repository.UserRepository;
 import pqdong.movie.recommend.domain.user.UserInfo;
-import pqdong.movie.recommend.exception.MyException;
-import pqdong.movie.recommend.exception.ResultEnum;
 import pqdong.movie.recommend.redis.RedisApi;
 import pqdong.movie.recommend.redis.RedisKeys;
 import pqdong.movie.recommend.utils.Md5EncryptionHelper;
@@ -43,7 +39,7 @@ public class UserService {
     public UserEntity updateUser(UserEntity user){
         // 如果用户名已经存在，不进行更新
         UserEntity userSearch = userRepository.findByUserNickName(user.getUsername());
-        // 不允许nickname相同
+        // nickname唯一
         if (null != userSearch && !userSearch.getUserMd().equals(user.getUserMd())){
             return null;
         }
@@ -122,7 +118,6 @@ public class UserService {
 
     // 退出
     public boolean logout(){
-
         return true;
     }
 }
