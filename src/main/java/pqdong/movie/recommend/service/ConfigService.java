@@ -5,6 +5,13 @@ import pqdong.movie.recommend.data.repository.ConfigRepository;
 
 import javax.annotation.Resource;
 
+/**
+ * ConfigService
+ *
+ * @author pqdong
+ * @since 2020/03/31
+ */
+
 @Service
 public class ConfigService {
 

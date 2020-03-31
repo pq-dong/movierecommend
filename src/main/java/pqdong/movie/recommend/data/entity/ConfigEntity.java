@@ -5,6 +5,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * ConfigEntity
+ * 配置实体
+ * @author pqdong
+ * @since 2020/03/31
+ */
+
 @Data
 @NoArgsConstructor
 @Entity

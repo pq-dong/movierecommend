@@ -13,9 +13,9 @@ spring:
     name: movie-recommend
   datasource:
     driver-class-name: com.mysql.jdbc.Driver # mysql驱动
-    username: your name # 你的数据库用户名
-    password: your password # 你的数据库密码，url中添加数据库地址和端口
-    url: jdbc:mysql://ip:port/movie?useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true&failOverReadOnly=false
+    username: yourname # 你的数据库用户名
+    password: yourpassword # 你的数据库密码，url中添加数据库地址和端口
+    url: jdbc:mysql://yourip:port/movie?useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true&failOverReadOnly=false
   redis:
     timeout: 300s # redis超时时间，建议用docker起一个redis容器即可
     host: 127.0.0.1
@@ -38,3 +38,13 @@ spring:
       hibernate:
         show_sql: true
         globally_quoted_identifiers: true
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+  elasticsearch:
+    ip: yourip
+    rest:
+      uris: yourip:9200
+      username: yourname
+      password: yourpassword

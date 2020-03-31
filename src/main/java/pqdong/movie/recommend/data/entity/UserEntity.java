@@ -3,6 +3,7 @@ package pqdong.movie.recommend.data.entity;
 /*
 * 用户表
 * @author pqdong
+* @since 2020/03/28
  */
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

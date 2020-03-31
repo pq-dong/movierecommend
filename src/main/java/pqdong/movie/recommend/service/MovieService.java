@@ -19,6 +19,13 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+/**
+ * MovieService
+ *
+ * @author pqdong
+ * @since 2020/03/31
+ */
+
 @Service
 @Slf4j
 public class MovieService {
