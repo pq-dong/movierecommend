@@ -6,7 +6,6 @@ import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.xpack.client.PreBuiltXPackTransportClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import pqdong.movie.recommend.service.ConfigService;
 
 import javax.annotation.Resource;
@@ -20,10 +19,14 @@ public class ElasticSearchConfig {
     @Bean
     public TransportClient transportClient(@Value("${spring.elasticsearch.ip}") String ip){
         String password = configService.getConfigValue("ESPASSWORD");
-        TransportClient client = new PreBuiltXPackTransportClient(Settings.builder()
+        try (TransportClient client = new PreBuiltXPackTransportClient(Settings.builder()
                 .put("cluster.name", "docker-cluster")
                 .put("xpack.security.user", password)
-        .build()).addTransportAddress(new TransportAddress(new InetSocketAddress(ip, 9300)));
-        return client;
+                .put("timeout", 10000)
+                .put("client.transport.ping_timeout", 10000)
+                .build())
+                .addTransportAddress(new TransportAddress(new InetSocketAddress(ip, 9300)))) {
+            return client;
+        }
     }
 }

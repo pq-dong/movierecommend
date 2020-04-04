@@ -20,7 +20,6 @@ public class MovieController {
      * @method getMovieTags 获取电影标签
      */
     @GetMapping("/tag")
-    @ResponseBody
     public ResponseMessage get() {
         return ResponseMessage.successMessage(movieService.getMovieTags());
     }
@@ -86,7 +85,7 @@ public class MovieController {
      **/
     @PostMapping("/update")
     public ResponseMessage updateMovie(@RequestBody(required = true) MovieEntity movie) {
-        // TODO 需要将打分和标签信息扔到flink中做推荐处理写到es
+        // TODO 需要将打分和标签信息扔到flink中做推荐处理写到es，打分这里涉及安全问题，应该能修改分数等信息
         return ResponseMessage.successMessage("");
     }
 }

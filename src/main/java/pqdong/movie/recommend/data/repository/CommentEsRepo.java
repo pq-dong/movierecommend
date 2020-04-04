@@ -7,6 +7,8 @@ import pqdong.movie.recommend.data.entity.CommentEs;
 import java.util.List;
 
 @Repository
-public interface CommentEsRepo extends ElasticsearchRepository<CommentEs,String> {
+public interface CommentEsRepo extends ElasticsearchRepository<CommentEs, Long> {
     List<CommentEs> findByMovieId(Long movieId);
+
+    List<CommentEs> findByUserMd(String userMd);
 }

@@ -79,6 +79,8 @@ dependencies {
 
     // kafka
 //    implementation 'org.springframework.kafka:spring-kafka'
+
+
     annotationProcessor 'org.projectlombok:lombok:1.18.2'
     compileOnly 'org.projectlombok:lombok:1.18.2'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
@@ -95,6 +97,8 @@ dependencies {
     implementation 'com.aliyun:aliyun-java-sdk-core:3.5.1'
     implementation 'com.aliyun:aliyun-java-sdk-dysmsapi:1.1.0'
     implementation 'com.qiniu:qiniu-java-sdk:7.2.9'
+
+    implementation 'net.sourceforge.javacsv:javacsv:2.0'
     
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

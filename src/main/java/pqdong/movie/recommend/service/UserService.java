@@ -8,13 +8,15 @@ import org.springframework.web.multipart.MultipartFile;
 import pqdong.movie.recommend.data.constant.UserConstant;
 import pqdong.movie.recommend.data.entity.UserEntity;
 import pqdong.movie.recommend.data.repository.UserRepository;
-import pqdong.movie.recommend.domain.user.UserInfo;
+import pqdong.movie.recommend.data.dto.UserInfo;
 import pqdong.movie.recommend.redis.RedisApi;
 import pqdong.movie.recommend.redis.RedisKeys;
 import pqdong.movie.recommend.utils.Md5EncryptionHelper;
 import pqdong.movie.recommend.utils.RecommendUtils;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,8 +29,12 @@ import java.util.concurrent.TimeUnit;
 @Service
 
 public class UserService {
+
     @Resource
     private UserRepository userRepository;
+
+    @Resource
+    private ElasticSearchService elasticSearchService;
 
     @Resource
     private QiNiuService qiNiuService;
@@ -45,7 +51,11 @@ public class UserService {
         }
         UserEntity userInfo = userRepository.findByUserMd(user.getUserMd());
         user.setPassword(userInfo.getPassword());
-        return userRepository.save(user);
+        UserEntity userEntity =  userRepository.save(user);
+        if (userEntity != null){
+            elasticSearchService.updateAllComment(userEntity);
+        }
+        return userEntity;
     }
 
     public String register(UserInfo user){
@@ -89,17 +99,20 @@ public class UserService {
     }
 
     // 登录后需要前端设置header
-    public String login(String userName, String password) {
+    public Map<String, Object> login(String userName, String password) {
         UserEntity user = userRepository.findByUserNickName(userName);
         if (user == null){
-            return "";
+            return null;
         }
         if (user.getPassword().equals(Md5EncryptionHelper.getMD5WithSalt(password))){
+            Map<String, Object> info = new HashMap<>();
             String token = RecommendUtils.genToken();
             redisApi.setValue(RecommendUtils.getKey(RedisKeys.USER_TOKEN, token) , user.getUserMd(), 7, TimeUnit.DAYS);
-            return token;
+            info.put("token", token);
+            info.put("user", user);
+            return info;
         } else {
-            return "";
+            return null;
         }
     }
 
@@ -112,7 +125,10 @@ public class UserService {
             return "用户不存在";
         }
         entity.setUserAvatar(url);
-        userRepository.save(entity);
+        UserEntity userEntity = userRepository.save(entity);
+        if (userEntity != null){
+            elasticSearchService.updateAllComment(userEntity);
+        }
         return url;
     }
 

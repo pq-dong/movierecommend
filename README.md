@@ -1,5 +1,5 @@
 # movierecommend
-基于Spring Boot的大数据电影推荐系统，采用协同过滤算法实现个性化推荐  
+基于Spring Boot的大数据电影推荐系统，采用协同过滤算法实现个性化推荐    
 
 ### demo地址：[http://movie.pqdong.com/#/](http://movie.pqdong.com/#/)
 由于首页资源比较多，且服务器带宽太小，所以首次访问时加载速度会很慢（大约在30s左右，可怕！），请多等一下；  
@@ -50,6 +50,9 @@
 * redis
 * gradle
 * kafka
+
+### 其他说明
+由于一直从事Golang开发，没怎么搞过java，所以决定此毕设使用java来做。其中的一些还代码有待商榷，会一点点完善。    
 
 ### 数据库中数据来源声明 
 来源：[斗码小院公众号](http://www.csuldw.com/assets/articleImg/2019/code-main-fun.png)。  

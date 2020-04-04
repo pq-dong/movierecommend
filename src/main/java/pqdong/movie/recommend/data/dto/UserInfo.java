@@ -1,4 +1,4 @@
-package pqdong.movie.recommend.domain.user;
+package pqdong.movie.recommend.data.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

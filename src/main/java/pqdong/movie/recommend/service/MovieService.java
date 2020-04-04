@@ -67,7 +67,7 @@ public class MovieService {
         List<MovieEntity> allMovie = getMovies(key, "name", page * size);
         List<MovieEntity> movieList = allMovie.subList(pair.getLeft(), pair.getRight() <= allMovie.size() ? pair.getRight() : allMovie.size());
         Map<String, Object> result = new HashMap<>(2, 1);
-        result.put("total", allMovie.size());
+        result.put("total", movieList.size());
         result.put("movieList", movieList.stream().peek(m -> {
             if (StringUtils.isEmpty(m.getCover())) {
                 m.setCover(ServerConstant.DefaultImg);
@@ -88,7 +88,7 @@ public class MovieService {
         }
         List<MovieEntity> movieList = allMovie.subList(pair.getLeft(), pair.getRight() <= allMovie.size() ? pair.getRight() : allMovie.size());
         Map<String, Object> result = new HashMap<>(2, 1);
-        result.put("total", allMovie.size());
+        result.put("total", movieList.size());
         result.put("movieList", movieList.stream().peek(m -> {
             if (StringUtils.isEmpty(m.getCover())) {
                 m.setCover(ServerConstant.DefaultImg);

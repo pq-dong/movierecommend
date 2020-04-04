@@ -3,9 +3,9 @@ package pqdong.movie.recommend.exception;
 import lombok.Getter;
 
 /**
- * @author Stalary
+ * @author pqdong
  * @description
- * @date 2018/03/24
+ * @date 2020/03/03
  */
 public enum ResultEnum {
     UNKNOW_ERROR(500, "服务器错误"),

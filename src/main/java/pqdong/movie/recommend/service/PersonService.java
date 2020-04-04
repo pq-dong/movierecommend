@@ -44,7 +44,7 @@ public class PersonService {
         List<PersonEntity> allPerson = getPersons(key, page*size);
         List<PersonEntity> personList = allPerson.subList(pair.getLeft(), pair.getRight() <= allPerson.size() ? pair.getRight() : allPerson.size());
         Map<String, Object> result = new HashMap<>(2, 1);
-        result.put("total", allPerson.size());
+        result.put("total", personList.size());
         result.put("personList", personList.stream().peek(p -> {
             if (StringUtils.isEmpty(p.getAvatar())){
                 p.setAvatar(ServerConstant.DefaultImg);

@@ -5,12 +5,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pqdong.movie.recommend.annotation.LoginRequired;
 import pqdong.movie.recommend.data.entity.UserEntity;
-import pqdong.movie.recommend.domain.user.UserInfo;
+import pqdong.movie.recommend.data.dto.UserInfo;
 import pqdong.movie.recommend.domain.util.ResponseMessage;
 import pqdong.movie.recommend.service.SmsService;
 import pqdong.movie.recommend.service.UserService;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * UserController
@@ -40,7 +41,7 @@ public class UserController {
      * @method updateUserInfo 修改用户信息
      */
     @PostMapping("/userInfo")
-    public ResponseMessage updateCourseInfo(@RequestBody(required = true) UserEntity user) {
+    public ResponseMessage updateUserInfo(@RequestBody(required = true) UserEntity user) {
         UserEntity userInfo = userService.updateUser(user);
         if (null == userInfo){
             return ResponseMessage.failedMessage("昵称已经存在，请跟换昵称！");
@@ -66,9 +67,9 @@ public class UserController {
      */
     @PostMapping("/login")
     public ResponseMessage userLogin(@RequestBody UserInfo user) {
-        String token = userService.login(user.getUsername(), user.getPassword());
-        if (StringUtils.isNotBlank(token)){
-            return ResponseMessage.successMessage(token);
+        Map<String, Object> info = userService.login(user.getUsername(), user.getPassword());
+        if (info != null){
+            return ResponseMessage.successMessage(info);
         } else {
             return ResponseMessage.failedMessage("登录失败，请检查用户名或密码！");
         }
