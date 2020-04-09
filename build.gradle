@@ -76,17 +76,11 @@ dependencies {
     // springboot-admin
     implementation 'de.codecentric:spring-boot-admin-starter-client:2.1.5'
 
-
-    // kafka
-//    implementation 'org.springframework.kafka:spring-kafka'
-
-
     annotationProcessor 'org.projectlombok:lombok:1.18.2'
     compileOnly 'org.projectlombok:lombok:1.18.2'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
     testCompileOnly 'org.projectlombok:lombok:1.18.2'
-//
-//    implementation 'com.github.ben-manes.caffeine:caffeine:2.6.2'
+
     implementation 'org.apache.commons:commons-pool2:2.6.1'
     implementation 'com.google.guava:guava:26.0-jre'
     implementation 'org.apache.commons:commons-lang3:3.8'
@@ -99,7 +93,12 @@ dependencies {
     implementation 'com.qiniu:qiniu-java-sdk:7.2.9'
 
     implementation 'net.sourceforge.javacsv:javacsv:2.0'
-    
+
+    //推荐相关
+    implementation 'org.apache.mahout:mahout-core:0.9'
+    implementation 'org.apache.mahout:mahout-math:0.9'
+    implementation 'org.apache.mahout:mahout-integration:0.9'
+
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

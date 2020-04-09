@@ -17,4 +17,7 @@ public class RedisKeys {
     // 评论防刷
     public static final String BRUSH = "brush";
 
+    // 推荐电影
+    public static final String RECOMMEND = "recommend";
+
 }

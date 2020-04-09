@@ -1,6 +1,7 @@
 package pqdong.movie.recommend.data.repository;
 
 
+import org.apache.hadoop.hdfs.server.namenode.BlockPlacementPolicyWithNodeGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +20,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query("SELECT e FROM UserEntity e WHERE e.username = :userNickName")
     UserEntity findByUserNickName(@Param("userNickName") String userNickName);
+
+    @Query("SELECT e FROM UserEntity e WHERE e.id = :userId")
+    UserEntity findOneByUserID(@Param("userId") Long userId);
 }

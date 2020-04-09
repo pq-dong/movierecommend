@@ -24,12 +24,10 @@
 - LANGUAGES: 语言
 - RELEASE_DATE: 上映日期
 - MINS: 片长
-- IMDB_ID: IMDbID
-- DOUBAN_SCORE: 豆瓣评分
-- DOUBAN_VOTES: 豆瓣投票数
+- SCORE: 评分
+- VOTES: 投票数
 - TAGS: 标签
 - STORYLINE: 电影描述
-- SLUG: 加密的url
 - YEAR: 年份
 - ACTOR_IDS: 演员与PERSON_ID的对应关系,多个演员采用“\|”符号分割，格式“演员A:ID\|演员B:ID”；
 - DIRECTOR_IDS: 导演与PERSON_ID的对应关系,多个导演采用“\|”符号分割，格式“导演A:ID\|导演B:ID”；
@@ -56,9 +54,9 @@ Person包括演员和导演，共72959个名人数据，包含10个字段，每�
 639125用户数据，包含4个字段，具体的字段如下：
 
 - USER_ID：用户ID
-- USER_MD: 用户md5，唯一标示
-- USER_NICKNAME: 评论用户昵称
-- USER_AVATAR: 评论用户头像
+- USER_MD: 用户md5，唯一标示，这里设计的及其不好，但是数据集以此为标示，因此我也采用
+- USER_NICKNAME: 用户昵称
+- USER_AVATAR: 用户头像
 - USER_Tags: 用户标签
 
 ### 标签表
@@ -81,8 +79,11 @@ Person包括演员和导演，共72959个名人数据，包含10个字段，每�
 评论数据共4428475 条，包含6个字段，各字段说明: 
 
 - COMMENT_ID: 评论ID
-- USER_ID：用户ID
-- MOVIE_ID: 电影ID，对应豆瓣的DOUBAN_ID
+- USER_MD：用户ID
+- USERNAME: 用户名称
+- USERAVATAR： 用户头像
+- MOVIE_ID: 电影ID
+- MOVIE_NAME: 电影名称
 - CONTENT: 评论内容
 - VOTES: 评论赞同数
 - COMMENT_TIME: 评论时间

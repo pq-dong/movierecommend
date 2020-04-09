@@ -2,8 +2,10 @@ package pqdong.movie.recommend.controller;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import pqdong.movie.recommend.annotation.LoginRequired;
 import pqdong.movie.recommend.data.dto.MovieSearchDto;
-import pqdong.movie.recommend.data.entity.MovieEntity;
+import pqdong.movie.recommend.data.dto.RatingDto;
+import pqdong.movie.recommend.data.entity.UserEntity;
 import pqdong.movie.recommend.domain.util.ResponseMessage;
 import pqdong.movie.recommend.service.MovieService;
 
@@ -80,12 +82,22 @@ public class MovieController {
     }
 
     /**
-     * @param movie 电影
-     * @method updateMovie 修改电影信息
+     * @param rating 打分
+     * @method updateScore 对电影评分
      **/
     @PostMapping("/update")
-    public ResponseMessage updateMovie(@RequestBody(required = true) MovieEntity movie) {
-        // TODO 需要将打分和标签信息扔到flink中做推荐处理写到es，打分这里涉及安全问题，应该能修改分数等信息
-        return ResponseMessage.successMessage("");
+    @LoginRequired
+    public ResponseMessage updateScore(@RequestBody(required = true) RatingDto rating) {
+        return ResponseMessage.successMessage(movieService.updateScore(rating));
     }
+
+    /**
+     * @method getHighMovie 获取高分电影
+     **/
+    @PostMapping("/recommend")
+    public ResponseMessage getRecommendMovie(@RequestBody(required = false) UserEntity user) {
+        return ResponseMessage.successMessage(movieService.getRecommendMovie(user));
+    }
+
+
 }

@@ -6,6 +6,7 @@ package pqdong.movie.recommend.data.entity;
 * @since 2020/03/28
  */
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -59,4 +60,7 @@ public class UserEntity {
     @Column(name = "sex")
     private String sex;
 
+    public List<String> getFormatTag(){
+        return JSONObject.parseArray(this.userTags, String.class);
+    }
 }

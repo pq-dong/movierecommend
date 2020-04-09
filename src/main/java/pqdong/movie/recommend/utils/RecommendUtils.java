@@ -4,11 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Joiner;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -141,6 +140,19 @@ public class RecommendUtils {
         int start = (page - 1) * size;
         int end = start + size;
         return Pair.of(start, end);
+    }
+
+    public static Date getFormatDate(Date time) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (time == null){
+            time = new Date();
+        }
+        return formatter.parse(getFormatDateString(time));
+    }
+
+    public static String getFormatDateString(Date time) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return formatter.format(time);
     }
 
 }

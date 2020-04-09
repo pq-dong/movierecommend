@@ -5,11 +5,18 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.mahout.cf.taste.common.TasteException;
 import org.springframework.stereotype.Service;
 import pqdong.movie.recommend.data.constant.ServerConstant;
 import pqdong.movie.recommend.data.dto.MovieSearchDto;
+import pqdong.movie.recommend.data.dto.RatingDto;
 import pqdong.movie.recommend.data.entity.MovieEntity;
+import pqdong.movie.recommend.data.entity.RatingEntity;
+import pqdong.movie.recommend.data.entity.UserEntity;
 import pqdong.movie.recommend.data.repository.MovieRepository;
+import pqdong.movie.recommend.data.repository.RatingRepository;
+import pqdong.movie.recommend.data.repository.UserRepository;
+import pqdong.movie.recommend.domain.service.MovieRecommender;
 import pqdong.movie.recommend.redis.RedisApi;
 import pqdong.movie.recommend.redis.RedisKeys;
 import pqdong.movie.recommend.utils.RecommendUtils;
@@ -37,18 +44,69 @@ public class MovieService {
     private MovieRepository movieRepository;
 
     @Resource
+    private RatingRepository ratingRepository;
+
+    @Resource
+    private UserRepository userRepository;
+
+    @Resource
     private RedisApi redisApi;
 
+    @Resource
+    private MovieRecommender movieRecommender;
+
+    private final static int RECOMMENT_SIZE = 4;
+
+
+    // 获取推荐电影
+    public List<MovieEntity> getRecommendMovie(UserEntity user) {
+        // 用户已经登录
+        List<MovieEntity> recommendMovies = new LinkedList<>();
+        String recommend = "";
+        if (user != null) {
+            // load缓存数据
+            recommend = redisApi.getString(RecommendUtils.getKey(RedisKeys.RECOMMEND, user.getUserMd()));
+            if (StringUtils.isEmpty(recommend)) {
+                // 用户打过分
+                if (!ratingRepository.findAllByUserId(user.getId()).isEmpty()){
+                    // 基于内容推荐
+                    try {
+                        List<Long> movieIds = movieRecommender.itemBasedRecommender(user.getId(), RECOMMENT_SIZE);
+                        recommendMovies.addAll(movieRepository.findAllById(movieIds));
+                    } catch (Exception e) {
+                        log.info("{}",e);
+                    }
+                }
+            } else {
+                // 从缓存中直接加载
+                recommendMovies.addAll(JSONObject.parseArray(recommend, MovieEntity.class));
+            }
+        } else{
+            // 用户未登录，随机返回
+            recommendMovies.addAll(movieRepository.findAllByCountLimit(RECOMMENT_SIZE));
+        }
+        // 上述过程异常，或者用户未登录，直接根据标签查询数据库并推荐
+        // 从性能方面考虑先缓存，所以不是实时推荐的。如果有足够好的服务器，完全可以不缓存，搞成实时的
+        if (recommendMovies.isEmpty() && user != null){
+            recommendMovies.addAll(movieRepository.findAllByTag(Optional.ofNullable(user.getFormatTag())
+                    .orElse(Collections.singletonList("科幻")).get(0), RECOMMENT_SIZE));
+        }
+        if (StringUtils.isEmpty(recommend)){
+            redisApi.setValue(RecommendUtils.getKey(RedisKeys.RECOMMEND, user.getUserMd()),JSONObject.toJSONString(recommendMovies),1,TimeUnit.DAYS );
+        }
+        return recommendMovies;
+    }
+
     // 获取高分电影
-    public Map<String, Object> getHighMovie(){
+    public Map<String, Object> getHighMovie() {
         String movieByRedis = redisApi.getString(RedisKeys.HIGH_MOVIE);
         Map<String, Object> result = new HashMap<>(2, 1);
-        if (StringUtils.isEmpty(movieByRedis)){
+        if (StringUtils.isEmpty(movieByRedis)) {
             List<MovieEntity> allMovies = movieRepository.findAllByHighScore();
             redisApi.setValue(RedisKeys.HIGH_MOVIE, JSONObject.toJSONString(allMovies), 1, TimeUnit.DAYS);
             result.put("total", allMovies.size());
             result.put("movieList", allMovies);
-        }else{
+        } else {
             List<MovieEntity> allMovies = JSONObject.parseArray(movieByRedis, MovieEntity.class);
             result.put("total", allMovies.size());
             result.put("movieList", allMovies);
@@ -122,8 +180,21 @@ public class MovieService {
         }).collect(Collectors.toCollection(LinkedList::new));
     }
 
-    // 修改电影信息
-    public MovieEntity updateMovie(MovieEntity movie) {
+    // 对电影打分
+    public MovieEntity updateScore(RatingDto ratingDto) {
+        UserEntity user = userRepository.findOneByUserID(ratingDto.getUserId());
+        MovieEntity movie = movieRepository.findOneByMovieID(ratingDto.getMovieId());
+        if (user == null){
+            return movie;
+        }
+        movie.setScore(ratingDto.getRating());
+        RatingEntity rating = RatingEntity.builder()
+                .movieId(ratingDto.getMovieId())
+                .rating(ratingDto.getRating().intValue())
+                .userId(ratingDto.getUserId())
+                .releaseDate(new Date())
+                .build();
+        ratingRepository.save(rating);
         return movieRepository.save(movie);
     }
 }

@@ -1,7 +1,8 @@
 package pqdong.movie.recommend.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.csvreader.CsvReader;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
@@ -60,7 +61,7 @@ public class ElasticSearchService {
 
     // 更新所有评论，异步处理
     @Async("taskExecutor")
-    public long updateAllComment(UserEntity userEntity) {
+    public void updateAllComment(UserEntity userEntity) {
         List<CommentEs> commentEs = commentEsRepo.findByUserMd(userEntity.getUserMd());
         List queries = new ArrayList();
         int counter = 0;
@@ -69,9 +70,14 @@ public class ElasticSearchService {
             comment.setUserName(userEntity.getUsername());
             IndexQuery indexQuery = new IndexQuery();
             indexQuery.setId(Optional.ofNullable(comment.getCommentId())
-                    .orElse(Long.parseLong(comment.getUserMd(),16))
+                    .orElse(System.currentTimeMillis())
                     .toString());
-            indexQuery.setSource(JSONObject.toJSONString(comment));
+            try {
+                indexQuery.setSource(new ObjectMapper().writeValueAsString(comment));
+            } catch (JsonProcessingException e) {
+                log.info("{}", e.getMessage());
+                continue;
+            }
             indexQuery.setIndexName("comment");
             indexQuery.setType("comment");
             queries.add(indexQuery);
@@ -90,7 +96,6 @@ public class ElasticSearchService {
             elasticsearchTemplate.refresh("comment");
         }
         log.info("commentEs has update" + counter);
-        return counter;
     }
 
     // 用于将csv文件中的数据导入到es表中，在处理用户昵称和电影名称时考虑到速度，不查询数据库，用现有数据代替
@@ -111,7 +116,7 @@ public class ElasticSearchService {
             for (String[] comment : csvList) {
                 IndexQuery indexQuery = new IndexQuery();
                 indexQuery.setId(comment[0]);
-                indexQuery.setSource(JSONObject.toJSONString(CommentEs.builder()
+                indexQuery.setSource(new ObjectMapper().writeValueAsString(CommentEs.builder()
                         .userAvatar(RecommendUtils.getRandomAvatar(comment[1]))
                         .userMd(comment[1])
                         .userName(comment[1])
@@ -177,9 +182,14 @@ public class ElasticSearchService {
                 comment.setMovieName(movieEntity.getName());
                 IndexQuery indexQuery = new IndexQuery();
                 indexQuery.setId(Optional.ofNullable(comment.getCommentId())
-                        .orElse(Long.parseLong(comment.getUserMd(),16))
+                        .orElse(System.currentTimeMillis())
                         .toString());
-                indexQuery.setSource(JSONObject.toJSONString(comment));
+                try {
+                    indexQuery.setSource(new ObjectMapper().writeValueAsString(comment));
+                } catch (JsonProcessingException e) {
+                    log.info("{}", e.getMessage());
+                    continue;
+                }
                 indexQuery.setIndexName("comment");
                 indexQuery.setType("comment");
                 queries.add(indexQuery);
