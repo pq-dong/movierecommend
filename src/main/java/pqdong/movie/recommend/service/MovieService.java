@@ -69,7 +69,7 @@ public class MovieService {
             if (StringUtils.isEmpty(recommend)) {
                 // 用户打过分
                 if (!ratingRepository.findAllByUserId(user.getId()).isEmpty()){
-                    // 基于内容推荐
+                    // 基于用户推荐
                     try {
                         List<Long> movieIds = movieRecommender.itemBasedRecommender(user.getId(), RECOMMENT_SIZE);
                         recommendMovies.addAll(movieRepository.findAllById(movieIds));
@@ -86,10 +86,9 @@ public class MovieService {
             recommendMovies.addAll(movieRepository.findAllByCountLimit(RECOMMENT_SIZE));
         }
         // 上述过程异常，或者用户未登录，直接根据标签查询数据库并推荐
-        // 从性能方面考虑先缓存，所以不是实时推荐的。如果有足够好的服务器，完全可以不缓存，搞成实时的
         if (recommendMovies.isEmpty() && user != null){
             recommendMovies.addAll(movieRepository.findAllByTag(Optional.ofNullable(user.getFormatTag())
-                    .orElse(Collections.singletonList("科幻")).get(0), RECOMMENT_SIZE));
+                    .orElse(Collections.singletonList(user.getUserTags())).get(0), RECOMMENT_SIZE));
         }
         if (StringUtils.isEmpty(recommend)){
             redisApi.setValue(RecommendUtils.getKey(RedisKeys.RECOMMEND, user.getUserMd()),JSONObject.toJSONString(recommendMovies),1,TimeUnit.DAYS );
